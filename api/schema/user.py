@@ -1,7 +1,4 @@
 from marshmallow import fields
-from marshmallow import Schema
-from marshmallow_sqlalchemy import auto_field
-from marshmallow_sqlalchemy import ModelSchema
 
 from api import ma
 from api.model.user import User as UserModel
