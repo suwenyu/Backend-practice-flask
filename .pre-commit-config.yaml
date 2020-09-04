@@ -3,7 +3,13 @@ repos:
     rev: v1.4.2
     hooks:
     -   id: autopep8
-        args: [--in-place, --aggressive, --aggressive ]
+        name: autopep8
+        entry: autopep8
+        language: python
+        'types': [python]
+        args: ["-i", "--aggressive"]
+        require_serial: false
+        additional_dependencies: []
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3
     hooks:
