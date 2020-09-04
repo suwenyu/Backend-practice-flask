@@ -7,7 +7,7 @@ repos:
         entry: autopep8
         language: python
         'types': [python]
-        args: ["-i", "--aggressive"]
+        args: [--in-place, --aggressive, --aggressive ]
         require_serial: false
         additional_dependencies: []
 -   repo: https://github.com/pre-commit/pre-commit-hooks

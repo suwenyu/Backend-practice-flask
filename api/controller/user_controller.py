@@ -1,15 +1,11 @@
 from flask import request
-from flask_restplus import reqparse
 from flask_restplus import Resource
 
-from api.generics import GenericAPIView
 from api.model.user import User as UserModel
 from api.schema.user import UserSchema
-from api.service.user_service import get_a_user
-from api.service.user_service import get_all_users
-from api.service.user_service import save_new_user
 from api.util.dto import UserDto
 from api.view.user import UserView
+
 
 api = UserDto.api
 _user = UserDto.user
@@ -48,7 +44,6 @@ class UserDetail(Resource, UserView):
     def get(self, id):
         """get a user given its identifier"""
         self.queryset = self.model.query.filter_by(id=id).first()
-        # self.queryset = db.session(self.model).filter_by(id = public_id).first()
         return self.retrieve()
 
     @api.doc("update a user")
