@@ -1,6 +1,5 @@
 from flask_restplus import fields
 from flask_restplus import Namespace
-from flask_restplus import reqparse
 
 
 class UserDto:
