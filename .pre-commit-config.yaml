@@ -1,4 +1,9 @@
 repos:
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.4.2
+    hooks:
+    -   id: autopep8
+        args: [--in-place, --aggressive, --aggressive ]
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3
     hooks:
@@ -7,6 +12,7 @@ repos:
     -   id: check-merge-conflict
     -   id: check-json
     -   id: check-yaml
+    -   id: flake8
 -   repo: https://github.com/ambv/black
     rev: stable
     hooks:
@@ -22,7 +28,3 @@ repos:
     rev: v1.6.1
     hooks:
     -   id: reorder-python-imports
--   repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v1.4.2
-    hooks:
-    -   id: autopep8
