@@ -3,9 +3,9 @@ from flask_restplus import Resource
 
 from api.model.user import User as UserModel
 from api.schema.user import UserSchema
+from api.service.user_service import generate_token
 from api.util.dto import UserDto
 from api.view.user import UserView
-
 
 api = UserDto.api
 _user = UserDto.user
@@ -51,7 +51,7 @@ class UserDetail(Resource, UserView):
     @api.expect(_user, validate=True)
     def put(self, id):
         """update a user given its identifier """
-        self.queryset = self.model.query.filter_by(id=id)
+        self.queryset = self.model.query.filter_by(id=id).first()
         data = request.json
         data.pop("password")
         print(data)

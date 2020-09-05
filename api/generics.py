@@ -18,18 +18,11 @@ class CreateMixin:
             self.perform_create(obj)
         except ValidationError as err:
             print(err.messages)
-        # headers = self.get_success_headers(serializer.data)
         return self.schema.dump(obj), 201
 
     def perform_create(self, data):
         db.session.add(data)
         db.session.commit()
-
-    def get_success_headers(self, data):
-        try:
-            return {"Location": str(data[api_settings.URL_FIELD_NAME])}
-        except (TypeError, KeyError):
-            return {}
 
 
 class UpdateMixin:
@@ -39,23 +32,16 @@ class UpdateMixin:
 
     def update(self, data):
         instance = self.get_queryset()
-        print(instance)
         if instance:
             self.perform_update(data, instance)
-            return instance.first().to_dict(), 201
+            return instance, 201
         else:
             return {"status": "Not found"}, 400
 
     def perform_update(self, data, instance):
-        # for k, v in data.items():
-        #     setattr(instance, k, v)
-
-        instance.update(data)
+        for k, v in data.items():
+            setattr(instance, k, v)
         db.session.commit()
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs["partial"] = True
-        return self.update(request, *args, **kwargs)
 
 
 class DestroyMixin:
@@ -84,7 +70,6 @@ class RetrieveMixin:
 
     def retrieve(self):
         instance = self.get_queryset()
-        print(instance)
         if instance:
             return self.schema.dump(instance), 200
         else:
@@ -101,7 +86,12 @@ class ListMixin:
         return self.schema.dump(queryset), 200
 
 
-class GenericAPIView(CreateMixin, UpdateMixin, DestroyMixin, RetrieveMixin, ListMixin):
+class GenericAPIView(
+        CreateMixin,
+        UpdateMixin,
+        DestroyMixin,
+        RetrieveMixin,
+        ListMixin):
     model = None
     queryset = None
     schema = None
