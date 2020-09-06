@@ -2,8 +2,8 @@ from flask import request
 from flask_restplus import Resource
 
 from api.service.auth_helper import Auth
+from api.util.decorator import token_required
 from api.util.dto import AuthDto
-
 
 api = AuthDto.api
 user_auth = AuthDto.user_auth
@@ -27,6 +27,7 @@ class LogoutAPI(Resource):
     """
     Logout Resource
     """
+    @token_required
     @api.doc('logout a user')
     def post(self):
         # get auth token

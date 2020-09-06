@@ -3,7 +3,6 @@ from flask_restplus import Resource
 
 from api.model.user import User as UserModel
 from api.schema.user import UserSchema
-from api.service.user_service import generate_token
 from api.util.dto import UserDto
 from api.view.user import UserView
 

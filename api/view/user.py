@@ -24,8 +24,7 @@ class UserView(GenericAPIView):
             response_object = {
                 'status': 'success',
                 'message': 'Successfully registered.',
-                'Authorization': auth_token.decode(),
-                'data': self.schema.dump(user)
+                'Authorization': auth_token.decode()
             }
             return response_object, 201
 

@@ -1,5 +1,6 @@
 from flask_restplus import fields
 from flask_restplus import Namespace
+from flask_restplus import reqparse
 
 
 class UserDto:
@@ -22,3 +23,16 @@ class AuthDto:
         'email': fields.String(required=True, description='The email address'),
         'password': fields.String(required=True, description='The user password '),
     })
+
+
+class PostDto:
+    api = Namespace("post", description="post related operations")
+    post = api.model(
+        "post",
+        {
+            "title": fields.String(required=True, description="post title"),
+            "content": fields.String(request=True, description="post content"),
+        }
+    )
+    parser = reqparse.RequestParser()
+    parser.add_argument('user_id', type=int, help='get user all posts')
