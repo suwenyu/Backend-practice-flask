@@ -36,3 +36,13 @@ class PostDto:
     )
     parser = reqparse.RequestParser()
     parser.add_argument('user_id', type=int, help='get user all posts')
+
+
+class MessageDto:
+    api = Namespace("message", description="message related operations")
+    message = api.model(
+        "message",
+        {
+            "message": fields.String(description="message")
+        }
+    )
