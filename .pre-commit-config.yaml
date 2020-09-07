@@ -1,4 +1,15 @@
 repos:
+-   repo: local
+    hooks:
+    -   id: unittest
+        name: unittest
+        entry: python manage.py test
+        language: python
+        types: [python]
+        stages: [commit]
+        pass_filenames: false
+        additional_dependencies: ['-r', '/Users/wenyu/Desktop/onlineshop/requirements.txt']
+          # additional_dependencies: ['flask_migrate', 'flask_script', 'flask_bcrypt', 'flask_marshmallow', 'flask_restplus', 'marshmallow-sqlalchemy']
 -   repo: https://github.com/pre-commit/mirrors-autopep8
     rev: v1.4.2
     hooks:

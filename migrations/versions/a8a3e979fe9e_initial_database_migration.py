@@ -1,7 +1,7 @@
 """initial database migration
 
 Revision ID: a8a3e979fe9e
-Revises: 
+Revises:
 Create Date: 2020-08-31 14:16:36.127824
 
 """

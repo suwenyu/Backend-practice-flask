@@ -1,4 +1,4 @@
-.PHONY: 
+.PHONY:
 	clean system-packages python-packages install tests run all
 
 clean:
