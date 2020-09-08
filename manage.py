@@ -8,12 +8,12 @@ from flask_script import Shell
 
 from api import create_app
 from api import db
+from api import socketio
 from api.main import blueprint
 from api.model import user
 
 app = create_app(os.getenv("BOILERPLATE_ENV") or "dev")
 app.register_blueprint(blueprint)
-
 app.app_context().push()
 
 manager = Manager(app)
@@ -31,7 +31,7 @@ manager.add_command("db", MigrateCommand)
 
 @manager.command
 def run():
-    app.run()
+    socketio.run(app)
 
 
 @manager.command

@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restplus import Api
 
+from api import socket
 from api.controller.auth_controller import api as auth_ns
 from api.controller.message_controller import api as message_ns
 from api.controller.post_controller import api as post_ns

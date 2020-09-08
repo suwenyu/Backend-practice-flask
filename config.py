@@ -38,3 +38,6 @@ config_by_name = dict(dev=DevelopmentConfig,
                       test=TestingConfig, prod=ProductionConfig)
 
 key = Config.SECRET_KEY
+
+BOOTSTRAP_SERVERS = 'localhost:9092'
+TOPIC_NAME = 'my-test-topic'

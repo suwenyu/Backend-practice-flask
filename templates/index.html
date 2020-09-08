@@ -6,21 +6,56 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8"></script>
-
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function(){
-            var url = 'http://127.0.0.1';
-            var port = '5000';
-            var socket = io.connect(url + ':' + port);
+    $(document).ready(function() {
+        // var url = 'http://127.0.0.1';
+        // var port = '5000';
+        // var socket = io.connect(url + ':' + port);
 
-            socket.on('status_response', function(msg) {
-                console.log(msg);
-                var date = new Date();
-                $('#status').append('<p>status: ' + msg.data + "Time:"+ date+ '</p>');
-            });
+        var socket = io.connect('http://localhost:5000');
+
+        socket.on('status_response', function(msg) {
+            console.log(msg);
+            var date = new Date();
+            $('#status').append('<p>status: ' + msg.data + "Time:" + date + '</p>');
         });
+
+        socket.on('logs', function(msg) {
+            console.log(msg)
+            $('#log').append('<br>' + $('<div/>').text(msg.data).html());
+        });
+        socket.on('kafkaconsumer1', function(msg) {
+            $('#consumer').html("")
+        });
+
+        socket.on('kafkaconsumer', function(msg) {
+            $('#consumer').append('<br>' + $('<div/>').text(msg.data).html());
+        });
+
+        socket.on('kafkaproducer', function(msg) {
+            $('#producer').append('<br>' + $('<div/>').text(msg.data).html());
+        });
+
+        $('form#emit').submit(function(event) {
+            console.log($('#emit_data').val());
+            socket.emit('kafkaproducer', $('#emit_data').val());
+            return false;
+        });
+    });
     </script>
-    <body>
-        <div id="status"><div>
-    </body>
+
+<body>
+    <div id="status">
+        <div>
+            <form id="emit" method="POST" action='#'>
+                <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+                <input type="submit" value="Echo">
+            </form>
+            <h2>Logs</h2>
+            <div id="log"></div>
+            <h2>Producer</h2>
+            <div id="producer"></div>
+            <h2>Consumer</h2>
+            <div id="consumer"></div>
+</body>
 </head>
