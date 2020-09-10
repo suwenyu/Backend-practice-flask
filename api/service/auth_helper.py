@@ -1,24 +1,28 @@
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_refresh_token
+from flask_jwt_extended import decode_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_refresh_token_required
+
 from api.model.user import User as UserModel
 
 
 class Auth:
-
     @staticmethod
     def login_user(data):
         email = data.get("email")
         password = data.get("password")
-        print(email)
         try:
             user = UserModel.query.filter_by(email=email).first()
             if user and user.check_password(password):
-                auth_token = user.encode_auth_token(user.id)
-                if auth_token:
-                    response_object = {
-                        'status': 'success',
-                        'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
-                    }
-                    return response_object, 200
+                response_object = {
+                    'status': 'success',
+                    'message': 'Successfully logged in.',
+                    'Authorization': create_access_token(
+                        identity=user.username),
+                    'refresh_token': create_refresh_token(
+                        identity=user.username)}
+                return response_object, 200
             else:
                 response_object = {
                     'status': 'fail',
@@ -41,19 +45,13 @@ class Auth:
         else:
             auth_token = ''
         if auth_token:
-            resp = UserModel.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
-                # mark the token as blacklisted
+            resp = get_jwt_identity()
+            # mark the token as blacklisted
+            if resp:
                 return {
                     'status': 'success',
                     'message': 'log out'
                 }, 200
-            else:
-                response_object = {
-                    'status': 'fail',
-                    'message': resp
-                }
-                return response_object, 401
         else:
             response_object = {
                 'status': 'fail',
@@ -70,24 +68,19 @@ class Auth:
         else:
             auth_token = ''
         if auth_token:
-            resp = UserModel.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
-                user = UserModel.query.filter_by(id=resp).first()
-                response_object = {
-                    'status': 'success',
-                    'data': {
-                        'user_id': user.id,
-                        'email': user.email,
-                        'admin': user.admin,
-                        'created_on': str(user.created_on)
-                    }
-                }
-                return response_object, 200
+            # resp = UserModel.decode_auth_token(auth_token)
+            resp = get_jwt_identity()
+            user = UserModel.query.filter_by(username=resp).first()
             response_object = {
-                'status': 'fail',
-                'message': resp
+                'status': 'success',
+                'data': {
+                    'user_id': user.id,
+                    'email': user.email,
+                    'admin': user.admin,
+                    'created_on': str(user.created_on)
+                }
             }
-            return response_object, 401
+            return response_object, 200
         else:
             response_object = {
                 'status': 'fail',

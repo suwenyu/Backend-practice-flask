@@ -1,4 +1,5 @@
 from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restplus import reqparse
 from flask_restplus import Resource
 
@@ -32,7 +33,7 @@ class UserList(Resource, PostView):
     @api.response(201, "Post successfully created.")
     @api.doc("create a new post")
     @api.expect(_post, validate=True)
-    @token_required
+    @jwt_required
     def post(self):
         """Creates a new User """
         self.schema = PostSchema()
@@ -56,10 +57,10 @@ class UserDetail(Resource, PostView):
         self.queryset = self.model.query.filter_by(id=id).first()
         return self.retrieve()
 
-    @api.doc("update a user")
+    @api.doc("update a post")
     @api.marshal_with(_post)
     @api.expect(_post, validate=True)
-    @token_required
+    @jwt_required
     def put(self, id):
         """update a user given its identifier """
 
@@ -72,8 +73,8 @@ class UserDetail(Resource, PostView):
             id=id, user_id=user_id).first()
         return self.update(data)
 
-    @api.doc("delete a user")
-    @token_required
+    @api.doc("delete a post")
+    @jwt_required
     def delete(self, id):
         """delete a user given its identifier """
         user_data, status_code = Auth.get_logged_in_user(request)

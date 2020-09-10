@@ -1,3 +1,5 @@
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_refresh_token
 from marshmallow import ValidationError
 
 from api.generics import GenericAPIView
@@ -20,11 +22,12 @@ class UserView(GenericAPIView):
     def generate_token(self, user):
         try:
             # generate the auth token
-            auth_token = user.encode_auth_token(user.id)
+
             response_object = {
                 'status': 'success',
                 'message': 'Successfully registered.',
-                'Authorization': auth_token.decode()
+                'Authorization': create_access_token(identity=user.username),
+                'refresh_token': create_refresh_token(identity=user.username)
             }
             return response_object, 201
 

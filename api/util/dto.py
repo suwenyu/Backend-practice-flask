@@ -46,3 +46,7 @@ class MessageDto:
             "message": fields.String(description="message")
         }
     )
+
+
+class IndexDto:
+    api = Namespace("index", description="html page")
