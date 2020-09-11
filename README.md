@@ -11,6 +11,7 @@ Flask + PostgreSQL
 - Kafka
 - CI/CD with Jenkins and GitHub WebHook
 - pre-commit check
+- GraphQL
 
 
 ## Set up
