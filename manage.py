@@ -1,18 +1,16 @@
-import os
-import unittest
-
-from flask_graphql import GraphQLView
-from flask_migrate import Migrate
-from flask_migrate import MigrateCommand
-from flask_script import Manager
-from flask_script import Shell
-
 from api import create_app
 from api import db
 from api import socketio
 from api.main import blueprint
 from api.model import user
 from api.schema import schema
+from flask_graphql import GraphQLView
+from flask_migrate import Migrate
+from flask_migrate import MigrateCommand
+from flask_script import Manager
+from flask_script import Shell
+import os
+import unittest
 
 app = create_app(os.getenv("BOILERPLATE_ENV") or "dev")
 app.register_blueprint(blueprint)
